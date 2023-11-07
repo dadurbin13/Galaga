@@ -3,6 +3,7 @@ ArrayList<Enemy> enemies;
 
 Player player1;
 Player player2;
+PImage shipSprite;
 boolean isPaused = false;
 boolean[] keys = new boolean[256]; // Array to keep track of key states
 int level = 1;
@@ -19,8 +20,9 @@ int bulletSpeed = 5 * scaleFactor;
 
 void setup() {
   size(1600, 1200);
-  player1 = new Player(width / 2 - 100, height - 60, color(255, 0, 0));
-  player2 = new Player(width / 2 + 100, height - 60, color(0, 0, 255));
+  shipSprite = loadImage("data/Ship_Sprite.png");
+  player1 = new Player(width / 2 - 100, height - 60, color(255, 0, 0), shipSprite);
+  player2 = new Player(width / 2 + 100, height - 60, color(0, 0, 255), shipSprite);
   bullets = new ArrayList<Bullet>();
   enemies = new ArrayList<Enemy>();
   startNewLevel(level);
@@ -152,11 +154,13 @@ class Player {
   float x;
   float y;
   color c;
+  PImage sprite;
   
-  Player(float tempX, float tempY, color tempC) {
+  Player(float tempX, float tempY, color tempC, PImage tempSprite) {
     x = tempX;
     y = tempY;
     c = tempC;
+    sprite = tempSprite;
   }
   
   void update() {
@@ -165,8 +169,7 @@ class Player {
   }
   
   void display() {
-    fill(c);
-    rect(x, y, playerWidth, playerHeight);
+    image(sprite, x, y, playerWidth, playerHeight); // Draw the image at the player's location
   }
   
   void move(float step) {
